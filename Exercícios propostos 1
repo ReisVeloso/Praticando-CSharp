@@ -1,0 +1,38 @@
+/*
+//Exercício 1
+float notaMedia = 5;
+if (notaMedia >= 5) {
+    Console.WriteLine($"A nota média é {notaMedia}, suficiente para passar!");
+}
+else {
+    Console.WriteLine($"A nota {notaMedia} não é suficiente para passar!");   
+}
+*/
+
+/*
+//Exercício 2
+var linguagensDeProgramacao = new List<string> {"C#", "Java", "JavaScript" };
+string todosItens = string.Join(", ", linguagensDeProgramacao);
+Console.WriteLine(todosItens);
+*/
+
+/*
+//Exercício 3
+Console.WriteLine(linguagensDeProgramacao[0]);
+*/
+
+/*
+//Ecercício 4
+Console.Write("Escreva um número de 1 a 3 para imprimir o resultado: ");
+string opcaoString = Console.ReadLine();
+int opcaoInt = int.Parse(opcaoString);//Convertendo em int
+Console.WriteLine($"A linguagem na posição {opcaoInt} é a {linguagensDeProgramacao[opcaoInt-1]}");
+*/
+
+// Entendendo o foreach
+/*
+foreach (string linguagem in linguagensDeProgramacao)
+{
+    Console.WriteLine(linguagem);
+}
+*/
