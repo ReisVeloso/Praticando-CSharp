@@ -1,0 +1,515 @@
+// Screen Sound
+//Linguagem fortemente tipada, temos que declarar o tipo de variável.
+// Utilizar sempre aspas duplas para escrever as coisas
+//Toda instrução deve terminar com ;
+//Utiliza-se como padrão o Camel Case -> olaMundoTudoBem
+// void é para funções que não retornam nada
+
+
+//List<string> listaDeBandas = new List<string>();
+
+Dictionary<string, List<int>> listaDeBandas = new Dictionary<String, List<int>>();
+
+main();
+void main()
+{
+    Console.Clear();//Apaga tudo que está escrito na tela.
+    ExibirMensagemDeBoasVindas();
+    opcoesMenu();
+}
+
+//*********************************************FUNÇÕES AUXILIARES**********************************************************************
+void ExibirMensagemDeBoasVindas()
+{
+    Console.WriteLine(@"
+░██████╗░█████╗░██████╗░███████╗███████╗███╗░░██╗  ░██████╗░█████╗░██╗░░░██╗███╗░░██╗██████╗░
+██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝████╗░██║  ██╔════╝██╔══██╗██║░░░██║████╗░██║██╔══██╗
+╚█████╗░██║░░╚═╝██████╔╝█████╗░░█████╗░░██╔██╗██║  ╚█████╗░██║░░██║██║░░░██║██╔██╗██║██║░░██║
+░╚═══██╗██║░░██╗██╔══██╗██╔══╝░░██╔══╝░░██║╚████║  ░╚═══██╗██║░░██║██║░░░██║██║╚████║██║░░██║
+██████╔╝╚█████╔╝██║░░██║███████╗███████╗██║░╚███║  ██████╔╝╚█████╔╝╚██████╔╝██║░╚███║██████╔╝
+╚═════╝░░╚════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝  ╚═════╝░░╚════╝░░╚═════╝░╚═╝░░╚══╝╚═════╝░");
+    Console.WriteLine("\nBem Vindo!");
+};//*********************************** @ é para arrumar
+void opcoesMenu()
+{
+    Console.WriteLine("\nDigite 1 para registrar uma banda");
+    Console.WriteLine("Digite 2 para mostrar todas as bandas");
+    Console.WriteLine("Digite 3 para avaliar uma banda");
+    Console.WriteLine("Digite 4 para exibir a média de uma banda");
+    Console.WriteLine("Digite sair para sair");
+
+    Console.Write("\nDigite a sua opção: "); //Aparece a mensagem e na mesma linha executa o ReadLine
+    string opcaoEscolhida = Console.ReadLine()!;//
+    tratarOpcao(opcaoEscolhida);
+};//**************************************************** Menu com as opções de entrada
+void tratarOpcao(string op)
+{
+    switch (op)
+    {
+        case "1":
+            Console.WriteLine($"Você escolheu {op} então vamos registrar uma banda!!!");
+            registrarBandas();
+            desejaVoltarParaMenu();
+            break;
+
+        case "2":
+            Console.Clear();
+            Console.WriteLine($"\nVocê escolheu {op} então vamos mostrar todas as bandas!!!");
+            mostrarTodasAsBandas(listaDeBandas);
+            desejaVoltarParaMenu();
+            break;
+        case "3":
+            Console.Clear();
+            Console.WriteLine($"Você escolheu {op} então vamos avaliar uma banda!!!");
+            avaliarBanda();
+            desejaVoltarParaMenu();
+            break;
+        case "4":
+            Console.Clear();
+            Console.WriteLine($"Você escolheu {op} então vamos exibir a média de uma banda!!!");
+            mediaBanda(listaDeBandas);
+            desejaVoltarParaMenu();
+            break;
+        case "sair":
+            Console.Clear();
+            Console.WriteLine($"Obrigado por utilizar nossa aplicação!!!");
+            break;
+        default:
+            Console.WriteLine("Opção inválida, gentileza escolher novamente!");
+            opcoesMenu();
+            break;
+    };
+};//****************************************** Trata as opções do Menu com o Switch Case
+void cadastrandoOutraBanda()
+{
+    string outraBanda = inputUserString("\nDeseja registrar outra banda? [s/n]").ToUpper();
+    switch (outraBanda)//Deseja cadastrar outra banda [s/n]
+    {
+        case "S":
+            registrarBandas();
+            break;
+        case "N":
+            Console.Clear();
+            Console.WriteLine(@"
+█▀█ █▄▄ █▀█ █ █▀▀ ▄▀█ █▀▄ █▀█   █▀█ █▀█ █▀█   █░█ █▀ ▄▀█ █▀█   █▄░█ █▀█ █▀ █▀ ▄▀█ █▀
+█▄█ █▄█ █▀▄ █ █▄█ █▀█ █▄▀ █▄█   █▀▀ █▄█ █▀▄   █▄█ ▄█ █▀█ █▀▄   █░▀█ █▄█ ▄█ ▄█ █▀█ ▄█
+
+█▀ █▀█ █░░ █░█ █▀▀ █▀█ █▀▀ █▀
+▄█ █▄█ █▄▄ █▄█ █▄▄ █▄█ ██▄ ▄█");
+            break;
+        default:
+            Console.WriteLine("\nOpção inválida! \nDigite s para Sim e n para Não");
+            cadastrandoOutraBanda();
+            break;
+    }
+}//****************************************** Função para cadastrar Outra banda
+void registrarBandas()
+{
+    Console.Clear(); //Apaga tudo que está escrito na tela
+    Console.WriteLine(@"
+█░█ ▄▀█ █▀▄▀█ █▀█ █▀   █▀█ █▀▀ █▀▀ █ █▀ ▀█▀ █▀█ ▄▀█ █▀█   █▀█ █░█ ▄▀█ █░░   █▄▄ ▄▀█ █▄░█ █▀▄ ▄▀█ ▀█
+▀▄▀ █▀█ █░▀░█ █▄█ ▄█   █▀▄ ██▄ █▄█ █ ▄█ ░█░ █▀▄ █▀█ █▀▄   ▀▀█ █▄█ █▀█ █▄▄   █▄█ █▀█ █░▀█ █▄▀ █▀█ ░▄");//Cabeçalho do registrar bandas
+    string nomeBanda = inputUserString("\nDigite o nome da banda a ser registrada: ").ToUpper();
+
+    if (listaDeBandas.ContainsKey(nomeBanda))
+    {
+        Console.WriteLine($"\nA banda {nomeBanda} já foi cadastrada");
+        cadastrandoOutraBanda();
+    }
+    else
+    {
+        listaDeBandas.Add(nomeBanda, new List<int>());
+        Console.WriteLine($"Você registrou a banda {nomeBanda} com sucesso!");
+        cadastrandoOutraBanda();
+
+    }
+}//************************************************ Opção 1 do SwitchCase
+void mostrarTodasAsBandas(Dictionary<string, List<int>> listaMostrar)
+{
+    Console.WriteLine("\n\nPodemo ver a lista das seguintes formas:\n 1 - Na ordem adicionada com informações completas\n2 - Em ordem alfabética \n3 - Pesquisar se existe a banda foi adicionada");
+    string opcaoMostrarLista = inputUserString("Como você gostaria de ver a lista de musicas? [1, 2, 3]: ");
+    Console.WriteLine($"\nSua lista tem {listaMostrar.Count} itens");// listaMostrar.Count mostra tamanho da lista
+
+    switch (opcaoMostrarLista)
+    {
+        case "1":
+            foreach (var par in listaMostrar)
+            {
+                //par representa chave valor key e value, ou seja, se eu digitar par.key => Pego a chave
+                Console.WriteLine($"Banda: {par.Key} revebeu as notas:");
+                foreach (var n in par.Value) 
+                {
+                    Console.WriteLine($"A nota é {n}");
+                }
+
+            }
+            break;
+
+        case "2":
+            var listaMostrarOrdenada = listaMostrar.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);//OrderBy(x => x.Key) ordena pelo key se trocar key por value, ordenarás pelo value
+
+            foreach (var par in listaMostrarOrdenada)
+            {
+                Console.WriteLine($"{par.Key}");
+            }
+            break;
+
+        case "3":
+            pesquisarBandaNoBD(listaMostrar);
+            break;
+        default:
+            Console.WriteLine("Opção inválida");
+            break;
+    }
+
+    outroFiltroFunc();
+    void outroFiltroFunc()
+    {
+        string outroFiltro = inputUserString("\nGostaria de realizar outro filtro? [s/n]").ToUpper();
+        Console.Clear();
+        switch (outroFiltro)
+        {
+            case "S":
+                mostrarTodasAsBandas(listaMostrar);
+                break;
+            case "N":
+                Console.Clear();
+                Console.WriteLine("Obrigado!");
+                break;
+            default:
+                Console.WriteLine("Opção inválida");
+                outroFiltroFunc();
+                break;
+        }
+    }
+}//* Opção 2 do SwitchCase 
+void avaliarBanda()
+{
+    Console.Clear();
+    string pesquisarBanda = inputUserString("Qual banda você gostaria de avaliar? ").ToUpper();
+
+    if (listaDeBandas.ContainsKey(pesquisarBanda))
+    {
+        string notaBandaString = inputUserString($"\nQual nota você da para a banda {pesquisarBanda} [0 - 10]? ");
+        int notaBanda = int.Parse(notaBandaString);
+
+        listaDeBandas[pesquisarBanda].Add(notaBanda);
+        Console.WriteLine($"\nA nota {notaBanda} foi atribuida à banda {pesquisarBanda}");
+    }
+    else
+    {
+        Console.WriteLine("\nA banda não está registrada !");
+        cadastrandoOutraBanda();
+    }
+    avaliarOutraBanda();
+    void avaliarOutraBanda()
+    {
+        string respostaAvaliarOutraBanda = inputUserString("\nVocê gostaria de avaliar outra banda [s/n]? ").ToUpper();
+        switch (respostaAvaliarOutraBanda)
+        {
+            case "S":
+                avaliarBanda();
+                break;
+            case "N":
+                Console.Clear();
+                Console.WriteLine(@"
+█▀█ █▄▄ █▀█ █ █▀▀ ▄▀█ █▀▄ █▀█   █▀█ █▀█ █▀█   █░█ █▀ ▄▀█ █▀█   █▄░█ █▀█ █▀ █▀ ▄▀█ █▀
+█▄█ █▄█ █▀▄ █ █▄█ █▀█ █▄▀ █▄█   █▀▀ █▄█ █▀▄   █▄█ ▄█ █▀█ █▀▄   █░▀█ █▄█ ▄█ ▄█ █▀█ ▄█
+
+█▀ █▀█ █░░ █░█ █▀▀ █▀█ █▀▀ █▀
+▄█ █▄█ █▄▄ █▄█ █▄▄ █▄█ ██▄ ▄█");
+                break;
+            default:
+                Console.WriteLine("\nOpção inválida! \nDigite s para Sim e n para Não");
+                avaliarOutraBanda();
+                break;
+        }
+    }
+
+
+
+
+
+}//*************************************************** Opção 3 do SwitchCase
+void mediaBanda(Dictionary<string, List<int>> dicionárioDeBandas)
+{
+
+    string pesquisarMediaBanda = inputUserString("Qual banda você gostaria de validar a média? ").ToUpper();
+    if (dicionárioDeBandas.ContainsKey(pesquisarMediaBanda))
+    {
+
+        List<int> notaMediaBanda = dicionárioDeBandas[pesquisarMediaBanda];
+        Console.WriteLine($"\nA nota média da banda {pesquisarMediaBanda} foi {notaMediaBanda.Average()} ");
+
+    }
+    else
+    {
+        Console.WriteLine("\nA banda não está registrada !");
+        cadastrandoOutraBanda();
+    }
+}//***** Opção 4 do SwitchCase
+
+void desejaVoltarParaMenu()
+{
+    string resposta = inputUserString("\nDeseja voltar para o menu de opções [s/n]? ").ToUpper();
+
+    switch (resposta)
+    {
+        case "S":
+            main();
+            break;
+        case "N":
+            Console.Clear();
+            Console.WriteLine(@"
+█▀█ █▄▄ █▀█ █ █▀▀ ▄▀█ █▀▄ █▀█   █▀█ █▀█ █▀█   █░█ █▀ ▄▀█ █▀█   █▄░█ █▀█ █▀ █▀ ▄▀█ █▀
+█▄█ █▄█ █▀▄ █ █▄█ █▀█ █▄▀ █▄█   █▀▀ █▄█ █▀▄   █▄█ ▄█ █▀█ █▀▄   █░▀█ █▄█ ▄█ ▄█ █▀█ ▄█
+
+█▀ █▀█ █░░ █░█ █▀▀ █▀█ █▀▀ █▀
+▄█ █▄█ █▄▄ █▄█ █▄▄ █▄█ ██▄ ▄█");
+            break;
+        default:
+            Console.WriteLine("\nOpção inválida! \nDigite s para Sim e n para Não");
+            desejaVoltarParaMenu();
+            break;
+    }
+}//******************************************* Trata a pergunta, "Deseja Voltar ao menu", com o Switch Case.
+
+static string inputUserString(string cabecalho)
+{
+    Console.Write(cabecalho);
+    string inputUser = Console.ReadLine();
+    return inputUser;
+}//*********************** Para facilitar a na hora de solicitar input do usuário
+
+void pesquisarBandaNoBD(Dictionary<string, List<int>> listaDePesquisarBandas)
+{
+    string pesquisarBanda = inputUserString("Qual banda você gostaria de saber se está cadastrada no Banco de dados? ").ToUpper();
+    if (listaDePesquisarBandas.ContainsKey(pesquisarBanda))
+    {
+        Console.WriteLine($"\nA banda {pesquisarBanda} já foi registrada ");
+    }
+    else
+    {
+        Console.WriteLine("\nA banda não está registrada !");
+        cadastrandoOutraBanda();
+    }
+}// Pesquisar Banda no BD
+
+
+
+// Deixei o rascunho da lista para fazer comparativos de tratamento de lista e dicionário
+
+/*
+{ RETIRAR
+
+// Screen Sound
+//Linguagem fortemente tipada, temos que declarar o tipo de variável.
+// Utilizar sempre aspas duplas para escrever as coisas
+//Toda instrução deve terminar com ;
+//Utiliza-se como padrão o Camel Case -> olaMundoTudoBem
+// void é para funções que não retornam nada
+
+
+List<string> listaDeBandas = new List<string>();
+
+main();
+void main()
+{
+    Console.Clear();//Apaga tudo que está escrito na tela.
+    ExibirMensagemDeBoasVindas();
+    opcoesMenu();
+}
+
+//FUNÇÕES AUXILIARES
+void ExibirMensagemDeBoasVindas()
+{
+    Console.WriteLine(@"
+░██████╗░█████╗░██████╗░███████╗███████╗███╗░░██╗  ░██████╗░█████╗░██╗░░░██╗███╗░░██╗██████╗░
+██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝████╗░██║  ██╔════╝██╔══██╗██║░░░██║████╗░██║██╔══██╗
+╚█████╗░██║░░╚═╝██████╔╝█████╗░░█████╗░░██╔██╗██║  ╚█████╗░██║░░██║██║░░░██║██╔██╗██║██║░░██║
+░╚═══██╗██║░░██╗██╔══██╗██╔══╝░░██╔══╝░░██║╚████║  ░╚═══██╗██║░░██║██║░░░██║██║╚████║██║░░██║
+██████╔╝╚█████╔╝██║░░██║███████╗███████╗██║░╚███║  ██████╔╝╚█████╔╝╚██████╔╝██║░╚███║██████╔╝
+╚═════╝░░╚════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝  ╚═════╝░░╚════╝░░╚═════╝░╚═╝░░╚══╝╚═════╝░");
+    Console.WriteLine("\nBem Vindo!");
+};//@ é para arrumar
+void opcoesMenu()
+{
+    Console.WriteLine("\nDigite 1 para registrar uma banda");
+    Console.WriteLine("Digite 2 para mostrar todas as bandas");
+    Console.WriteLine("Digite 3 para avaliar uma banda");
+    Console.WriteLine("Digite 4 para exibir a média de uma banda");
+    Console.WriteLine("Digite sair para sair");
+
+    Console.Write("\nDigite a sua opção: "); //Aparece a mensagem e na mesma linha executa o ReadLine
+    string opcaoEscolhida = Console.ReadLine()!;//
+    tratarOpcao(opcaoEscolhida);
+};
+
+void tratarOpcao(string op)
+{
+    switch (op)
+    {
+        case "1":
+            Console.WriteLine($"Você escolheu {op} então vamos registrar uma banda!!!");
+            registrarBandas();
+            desejaVoltarParaMenu();
+            break;
+
+        case "2":
+            Console.Clear();
+            Console.WriteLine($"\nVocê escolheu {op} então vamos mostrar todas as bandas!!!");
+            mostrarTodasAsBandas(listaDeBandas);
+            break;
+        case "3":
+            Console.WriteLine($"Você escolheu {op} então vamos avaliar uma banda!!!");
+            break;
+        case "4":
+            Console.WriteLine($"Você escolheu {op} então vamos exibir a média de uma banda!!!");
+            break;
+        case "sair":
+            Console.WriteLine($"Obrigado por utilizar nossa aplicação!!!");
+            break;
+        default:
+            Console.WriteLine("Opção inválida, gentileza escolher novamente!");
+            opcoesMenu();
+            break;
+    };
+};//Trata as opções do Menu com o Switch Case
+
+void registrarBandas()
+{
+    void cadastrandoOutraBanda(){
+        string outraBanda = inputUserString("\nDeseja registrar outra banda? [s/n]").ToUpper();
+        switch (outraBanda)//Deseja cadastrar outra banda [s/n]
+        {
+            case "S":
+                registrarBandas();
+                break;
+            case "N":
+                Console.Clear();
+                Console.WriteLine(@"
+█▀█ █▄▄ █▀█ █ █▀▀ ▄▀█ █▀▄ █▀█   █▀█ █▀█ █▀█   █░█ █▀ ▄▀█ █▀█   █▄░█ █▀█ █▀ █▀ ▄▀█ █▀
+█▄█ █▄█ █▀▄ █ █▄█ █▀█ █▄▀ █▄█   █▀▀ █▄█ █▀▄   █▄█ ▄█ █▀█ █▀▄   █░▀█ █▄█ ▄█ ▄█ █▀█ ▄█
+
+█▀ █▀█ █░░ █░█ █▀▀ █▀█ █▀▀ █▀
+▄█ █▄█ █▄▄ █▄█ █▄▄ █▄█ ██▄ ▄█");
+                break;
+            default:
+                Console.WriteLine("\nOpção inválida! \nDigite s para Sim e n para Não");
+                cadastrandoOutraBanda();
+                break;
+        }
+    }//Função para cadastrar Outra banda
+    Console.Clear(); //Apaga tudo que está escrito na tela
+    Console.WriteLine(@"
+█░█ ▄▀█ █▀▄▀█ █▀█ █▀   █▀█ █▀▀ █▀▀ █ █▀ ▀█▀ █▀█ ▄▀█ █▀█   █▀█ █░█ ▄▀█ █░░   █▄▄ ▄▀█ █▄░█ █▀▄ ▄▀█ ▀█
+▀▄▀ █▀█ █░▀░█ █▄█ ▄█   █▀▄ ██▄ █▄█ █ ▄█ ░█░ █▀▄ █▀█ █▀▄   ▀▀█ █▄█ █▀█ █▄▄   █▄█ █▀█ █░▀█ █▄▀ █▀█ ░▄");//Cabeçalho do registrar bandas
+    string nomeBanda = inputUserString("\nDigite o nome da banda a ser registrada: ").ToUpper();
+
+    if (listaDeBandas.Contains(nomeBanda))
+    {
+        Console.WriteLine($"\nA banda {nomeBanda} já foi cadastrada");
+        cadastrandoOutraBanda();
+    }
+    else
+    {
+        listaDeBandas.Add(nomeBanda);
+        Console.WriteLine($"Você registrou a banda {nomeBanda} com sucesso!");
+        cadastrandoOutraBanda();
+
+    }
+}//Opção 1 do SwitchCase
+
+void mostrarTodasAsBandas(List<string> listaMostrar)
+{
+    Console.WriteLine("\n\nPodemo ver a lista das seguintes formas:\n 1 - Na ordem adicionada \n2 - Em ordem alfabética \n3 - Pesquisar se existe a banda foi adicionada");
+    string opcaoMostrarLista = inputUserString("Como você gostaria de ver a lista de musicas? [1, 2, 3]: ");
+    Console.WriteLine($"Sua lista tem {listaMostrar.Count} itens");
+
+    switch (opcaoMostrarLista)
+    {
+        case "1":
+            for (int i = 0; i < listaMostrar.Count; i++)// listaMostrar.Count mostra tamanho da lista
+            {
+                Console.WriteLine($"{i} - {listaMostrar[i]}");
+
+            }
+            break;
+
+        case "2":
+            listaMostrar.Sort();
+            for (int i = 0; i < listaMostrar.Count; i++)// listaMostrar.Count mostra tamanho da lista
+            {
+                Console.WriteLine($"{i} - {listaMostrar[i]}");
+
+            }
+            break;
+
+        case "3":
+            string pesquisarBanda = inputUserString("Qual banda você gostaria de saber se está cadastrada no Banco de dados?").ToUpper();
+            if (listaMostrar.Contains(pesquisarBanda))
+            {
+                Console.WriteLine($"A banda {pesquisarBanda} já foi registrada na posição original {listaDeBandas.IndexOf(pesquisarBanda)}");
+            }
+            break;
+        default:
+            Console.WriteLine("Opção inválida");
+            break;
+    }
+
+    outroFiltroFunc();
+    void outroFiltroFunc()
+    {
+        string outroFiltro = inputUserString("\nGostaria de realizar outro filtro? [s/n]").ToUpper();
+        switch (outroFiltro)
+        {
+            case "S":
+                mostrarTodasAsBandas(listaMostrar);
+                break;
+            case "N":
+                Console.Clear();
+                Console.WriteLine("Obrigado!");
+                break;
+            default:
+                Console.WriteLine("Opção inválida");
+                outroFiltroFunc();
+                break;
+        }
+    }
+}// Opção 2 do SwitchCase 
+void desejaVoltarParaMenu()
+{
+    string resposta = inputUserString("\nDeseja voltar para o menu de opções [s/n]? ").ToUpper();
+
+    switch (resposta)
+    {
+        case "S":
+            main();
+            break;
+        case "N":
+            Console.Clear();
+            Console.WriteLine(@"
+█▀█ █▄▄ █▀█ █ █▀▀ ▄▀█ █▀▄ █▀█   █▀█ █▀█ █▀█   █░█ █▀ ▄▀█ █▀█   █▄░█ █▀█ █▀ █▀ ▄▀█ █▀
+█▄█ █▄█ █▀▄ █ █▄█ █▀█ █▄▀ █▄█   █▀▀ █▄█ █▀▄   █▄█ ▄█ █▀█ █▀▄   █░▀█ █▄█ ▄█ ▄█ █▀█ ▄█
+
+█▀ █▀█ █░░ █░█ █▀▀ █▀█ █▀▀ █▀
+▄█ █▄█ █▄▄ █▄█ █▄▄ █▄█ ██▄ ▄█");
+            break;
+        default:
+            Console.WriteLine("\nOpção inválida! \nDigite s para Sim e n para Não");
+            desejaVoltarParaMenu();
+            break;
+    }
+}//Trata a pergunta, "Deseja Voltar ao menu", com o Switch Case.
+
+static string inputUserString(string cabecalho)
+{
+    Console.Write(cabecalho);
+    string inputUser = Console.ReadLine();
+    return inputUser;
+}//Para facilitar a na hora de solicitar input do usuário
+
+// Rascunho
+
+ } RETIRAR
+ *///TRABALHANDO COM LISTA ->  ANTES DE MODIFICAR PARA DICIONÁRIO
